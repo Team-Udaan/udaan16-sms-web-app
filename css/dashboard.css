@@ -1,0 +1,39 @@
+body {
+    position: relative;
+}
+
+ul.nav-pills {
+    top: 75px;
+    position: fixed;
+    /*margin-top:40px;*/
+}
+
+ul.nav-pills > li > a {
+    color: #000000;
+    background: #d6f5e9;
+}
+
+a:hover {
+    background: black;
+    font-weight: bold;
+    padding-left: 25px;
+
+}
+
+#list-table-container {
+    color: black;
+}
+
+.navbar-header > .navbar-brand, .navbar-inverse .navbar-nav > li > a, .ul .nav .navbar-nav {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color: #000;
+    font-weight: bold;
+    padding-left: 25px;
+}
+
+.page-container > .container {
+    margin-top: 75px;
+}
