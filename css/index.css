@@ -1,0 +1,56 @@
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: "Quicksand", sans-serif;
+    height: 100%;
+    margin: 0;
+    background: #466368 no-repeat fixed;
+
+}
+
+#loginWindow {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-bottom: 2em;
+    border: solid #eee 1px;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+}
+
+.input-group {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    opacity: 0;
+}
+
+.page-header {
+    opacity: 0;
+}
+
+.left {
+    float: right;
+    font-size: 1.5em;
+}
+
+.btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+}
+
+.first_wrapper {
+    margin-top: 12%;
+}
+
+.wrapper_img {
+    padding: 0 8%;
+}

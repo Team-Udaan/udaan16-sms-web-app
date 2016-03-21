@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login_page</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <!-- Bootstrap Stylesheet -->
+    <link rel="stylesheet" href="dist/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="dist/css/bootstrap-theme.min.css">
+
+    <!-- Include jQuery library -->
+    <script src="dist/js/jquery-2.2.2.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="dist/js/bootstrap.min.js"></script>
+
+    <!--<script src="handlebars-v4.0.5.js"></script>-->
+    <script src="dist/js/handlebars.min.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/index.js"></script>
+</head>
+
+<body>
+<div class="first_wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-7">
+                <div id="wrapper">
+                    <div id="loginWindow">
+                        <div class="page-header">
+                            <p class="left">
+                                <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                            </p>
+                            <h1>Login</h1>
+                        </div>
+                        <span class="help-block" id="error-message"></span>
+                        <div class="input-group" id="u16-login-email-div">
+                            <span class="input-group-addon">Username</span>
+                            <input type="text" class="form-control" placeholder="Email" id="email">
+                        </div>
+                        <div class="input-group" id="u16-login-password-div">
+                            <span class="input-group-addon">Password</span>
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                        <button class="btn btn-primary" id="submit-button" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper_img hidden-xs col-sm-5">
+                <img src="res/img/logo-combined-vertical.png" alt="Udaan-16 Logo" class="img-responsive img" width="400"
+                     height="175">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
