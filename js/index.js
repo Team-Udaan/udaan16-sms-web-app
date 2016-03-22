@@ -5,7 +5,7 @@
 var token = localStorage.getItem('authorization-token');
 if (token) {
     $.ajax({
-            url: 'http://ec2-52-32-39-143.us-west-2.compute.amazonaws.com:8001/api/event_management/participants',
+        url: config.baseUrl + '/api/event_management/participants',
             type: 'GET',
             crossDomain: true,
             async: false,
@@ -46,7 +46,7 @@ $(document).ready(function () {
                 password: $('#password').val()
             };
             $.ajax({
-                    url: 'http://ec2-52-32-39-143.us-west-2.compute.amazonaws.com:8001/api/event_management/login',
+                url: config.baseUrl + '/api/event_management/login',
                     type: 'POST',
                     dataType: 'json',
                     crossDomain: true,

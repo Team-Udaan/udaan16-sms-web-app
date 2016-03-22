@@ -7,14 +7,15 @@ var app = {};
 app.token = localStorage.getItem('authorization-token');
 if (app.token) {
     $.ajax({
-            url: 'http://ec2-52-32-39-143.us-west-2.compute.amazonaws.com:8001/api/event_management/participants',
+        url: config.baseUrl + '/api/event_management/participants',
             type: 'GET',
             crossDomain: true,
             async: false,
             headers: {'Authorization': app.token},
             success: function (result) {
                 if (result.status === 200) {
-                    var participantData = result.message;
+                    var participantData = result.message.participants;
+                    app.eventName = result.message.eventName;
 
                     for (var i = 0; i < participantData.length; i++) {
                         participantData[i].names = participantData[i].names.replace(/\n/g, '<br />');
@@ -38,6 +39,28 @@ if (app.token) {
 }
 
 $(document).ready(function () {
+    $('#event-name').html(app.eventName);
+
+    $.ajax({
+            url: config.baseUrl + '/api/event_management/current_round',
+            type: 'GET',
+            crossDomain: true,
+            headers: {'Authorization': app.token},
+            success: function (result) {
+                if (result.status === 200) {
+                    app.roundNumber = result.message;
+                    $('#round-number').html('Round: ' + app.roundNumber);
+                } else {
+                    localStorage.removeItem('authorization-token');
+                    window.location.replace('index.html');
+                }
+            },
+            error: function () {
+                localStorage.removeItem('authorization-token');
+                window.location.replace('index.html');
+            }
+        }
+    );
 
     var source = $('#participant-template').html();
     var template = Handlebars.compile(source);
@@ -96,10 +119,6 @@ function confirmAndSendMessage() {
     for (var i = 0; i < participants.length; i++) {
         delete participants[i]['smsStatus'];
         delete participants[i]['index'];
-        participants[i].id = participants[i]._id;
-        delete participants[i]['_id'];
-        participants[i].receipt_id = participants[i].receiptId;
-        delete participants[i]['receiptId'];
     }
 
     var parameters = {
@@ -110,14 +129,18 @@ function confirmAndSendMessage() {
     };
 
     $.ajax({
-            url: 'http://ec2-52-32-39-143.us-west-2.compute.amazonaws.com:8001/api/sendsms',
+        url: config.baseUrl + '/api/sendsms',
             headers: {'Authorization': app.token},
             type: 'POST',
             data: JSON.stringify(parameters),
             dataType: 'json',
             crossDomain: true,
             success: function (result) {
-                window.location.reload();
+                if (result.status === 200) {
+                    reloadData();
+                } else {
+                    window.alert('Some error occurred.\nPlease try again.');
+                }
             },
             error: function (error) {
                 window.location.reload();
@@ -133,7 +156,7 @@ function confirmAndAddParticipant() {
     var mobileNumber = $('#mobile-number-add-team-modal').val();
 
     $.ajax({
-            url: 'http://ec2-52-32-39-143.us-west-2.compute.amazonaws.com:8001/api/event_management/participants',
+        url: config.baseUrl + '/api/event_management/participants',
             type: 'POST',
             data: JSON.stringify({
                 names: names,
@@ -142,12 +165,20 @@ function confirmAndAddParticipant() {
             dataType: 'json',
             headers: {'Authorization': app.token},
             crossDomain: true,
-            success: function () {
-                window.location.reload();
+        success: function (result) {
+            if (result.status === 200) {
+                reloadData();
+            } else {
+                window.alert('Some error occurred.\nPlease try again.');
+            }
             },
             error: function () {
-                window.location.reload();
+                reloadData();
             }
         }
     );
+}
+
+function reloadData() {
+    window.location.reload();
 }

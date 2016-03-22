@@ -18,11 +18,6 @@ ul.nav-pills > li > a {
     border-color: #3C763D;
 }
 
-/*ul.nav-pills > li:hover {*/
-/*background-color: #01031a;*/
-/*font-weight: bold;*/
-/*}*/
-
 ul.nav-pills > li > a:hover {
     background-color: #01031a;
     font-weight: bold;
