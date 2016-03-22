@@ -7,12 +7,13 @@ body {
     font-family: "Quicksand", sans-serif;
     height: 100%;
     margin: 0;
-    background: #466368 no-repeat fixed;
-
+    /*background: #020b27 no-repeat fixed;*/
+    background-image: url("../res/img/abstract-mosaic-background.png");
 }
 
 #loginWindow {
     background-color: white;
+    opacity: 1;
     margin-left: auto;
     margin-right: auto;
     padding-left: 3em;

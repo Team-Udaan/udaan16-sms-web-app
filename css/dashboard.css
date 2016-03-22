@@ -1,31 +1,35 @@
 body {
     position: relative;
+    background-color: #F9FBE7;
 }
+
 
 ul.nav-pills {
     top: 75px;
     position: fixed;
-    /*margin-top:40px;*/
 }
 
 ul.nav-pills > li > a {
-    color: #000000;
-    background: #d6f5e9;
+    color: #ffffff;
+    background-color: #3F51B5;
 }
 
-a:hover {
-    background: black;
-    font-weight: bold;
-    padding-left: 25px;
+.message-received {
+    border-color: #3C763D;
+}
 
+/*ul.nav-pills > li:hover {*/
+/*background-color: #01031a;*/
+/*font-weight: bold;*/
+/*}*/
+
+ul.nav-pills > li > a:hover {
+    background-color: #01031a;
+    font-weight: bold;
 }
 
 #list-table-container {
     color: black;
-}
-
-.navbar-header > .navbar-brand, .navbar-inverse .navbar-nav > li > a, .ul .nav .navbar-nav {
-    color: #fff;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover {
@@ -36,4 +40,12 @@ a:hover {
 
 .page-container > .container {
     margin-top: 75px;
+}
+
+.navbar {
+    background-color: #3F51B5;
+}
+
+#event-name {
+    color: white;
 }

@@ -27,7 +27,7 @@
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
 <div class="page-container">
-    <nav class="navbar navbar-fixed-top navbar-inverse">
+    <nav class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -38,7 +38,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Current Round</a>
+                <a class="navbar-brand" href="#" id="event-name">Current Round</a>
             </div>
             <div class="hidden-lg hidden-sm hidden-md">
                 <div id="navbar" class="collapse navbar-collapse">
@@ -68,7 +68,7 @@
             </nav>
             <div class="col-sm-9 col-xs-12">
                 <div id="list-table-container" class="table-responsive">
-                    <table class="table table-bordered table-hover well" id="participant-table">
+                    <table class="table table-bordered table-hover table-striped" id="participant-table">
                         <tr>
                             <th></th>
                             <th>Name</th>
