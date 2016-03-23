@@ -45,6 +45,7 @@ $(document).ready(function () {
             url: config.baseUrl + '/api/event_management/current_round',
             type: 'GET',
             crossDomain: true,
+        async: false,
             headers: {'Authorization': app.token},
             success: function (result) {
                 if (result.status === 200) {
@@ -63,14 +64,32 @@ $(document).ready(function () {
     );
 
     var source = $('#participant-template').html();
-    var template = Handlebars.compile(source);
+    app.template = Handlebars.compile(source);
+
+    Handlebars.registerHelper('isReceived', function (smsStatus) {
+        if (smsStatus === config.status.delivered) {
+            return 'success';
+        } else if (smsStatus === config.status.error) {
+            return 'danger';
+        } else {
+            return '';
+        }
+    });
 
     var participantTable = $('#participant-table');
     var participantData = {participant: app.participant};
+
     for (var i = 0; i < participantData.participant.length; i++) {
         participantData.participant[i].index = i;
     }
-    participantTable.html(participantTable.html() + template(participantData));
+
+    participantTable.html(app.template(participantData));
+
+    if (app.roundNumber === '0') {
+        var checkboxes = $('.checkbox');
+        checkboxes.prop('checked', true);
+        checkboxes.attr('disabled', true);
+    }
 
     // On venue or date-time change
     $('#venue-message-modal, #date-time-message-modal').on('change', function () {
@@ -137,13 +156,13 @@ function confirmAndSendMessage() {
             crossDomain: true,
             success: function (result) {
                 if (result.status === 200) {
-                    reloadData();
+                    setTimeout(reloadData, 5000);
                 } else {
                     window.alert('Some error occurred.\nPlease try again.');
                 }
             },
-            error: function (error) {
-                window.location.reload();
+        error: function () {
+            window.location.reload();
             }
         }
     );
@@ -180,5 +199,48 @@ function confirmAndAddParticipant() {
 }
 
 function reloadData() {
-    window.location.reload();
+    $.ajax({
+            url: config.baseUrl + '/api/event_management/participants',
+            type: 'GET',
+            crossDomain: true,
+            headers: {'Authorization': app.token},
+            success: function (result) {
+                if (result.status === 200) {
+                    var participantData = result.message.participants;
+                    app.eventName = result.message.eventName;
+
+                    for (var i = 0; i < participantData.length; i++) {
+                        participantData[i].names = participantData[i].names.replace(/\n/g, '<br />');
+                    }
+
+                    app.participant = participantData;
+
+                    var source = $('#participant-template').html();
+                    var template = Handlebars.compile(source);
+
+                    var participantTable = $('#participant-table');
+                    participantData = {participant: app.participant};
+
+                    for (var i = 0; i < participantData.participant.length; i++) {
+                        participantData.participant[i].index = i;
+                    }
+
+                    participantTable.html(template(participantData));
+
+                    if (app.roundNumber === '0') {
+                        var checkboxes = $('.checkbox');
+                        checkboxes.prop('checked', true);
+                        checkboxes.attr('disabled', true);
+                    }
+                } else {
+                    localStorage.removeItem('authorization-token');
+                    window.location.replace('index.html');
+                }
+            },
+            error: function () {
+                localStorage.removeItem('authorization-token');
+                window.location.replace('index.html');
+            }
+        }
+    );
 }

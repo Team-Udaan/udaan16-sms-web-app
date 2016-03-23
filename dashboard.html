@@ -42,6 +42,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#" id="event-name">Event Name</a>
+                <a class="navbar-brand" href="#">|</a>
                 <a class="navbar-brand" href="#" id="round-number">Round</a>
             </div>
             <div class="hidden-lg hidden-sm hidden-md">
@@ -71,7 +72,8 @@
             </nav>
             <div class="col-sm-9 col-lg-10 col-xs-12">
                 <div id="list-table-container" class="table-responsive">
-                    <table class="table table-bordered table-hover" id="participant-table">
+                    <table class="table table-bordered table-hover">
+                        <thead>
                         <tr>
                             <th></th>
                             <th>Name</th>
@@ -79,6 +81,9 @@
                             <th>Receipt ID</th>
                             <th>Status</th>
                         </tr>
+                        </thead>
+                        <tbody id="participant-table">
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -88,7 +93,7 @@
 
 <script id="participant-template" type="text/x-handlebars-template">
     {{#participant}}
-    <tr>
+    <tr class="{{isReceived smsStatus}}">
         <td><input type="checkbox" class="checkbox" title="Participant Checkbox" u16-index="{{index}}"></td>
         <td>{{{names}}}</td>
         <td>{{mobileNumber}}</td>
@@ -124,10 +129,10 @@
             </div>
             <div class="modal-footer">
                 <div class="col-xs-6">
-                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Cancel</button>
                 </div>
                 <div class="col-xs-6">
-                    <button type="button" class="btn btn-default btn-block" id="ok-button-message-modal"
+                    <button type="button" class="btn btn-primary btn-block" id="ok-button-message-modal"
                             data-toggle="modal" data-target="#confirm-send-message-modal">
                         Send Message
                     </button>
@@ -186,10 +191,10 @@
                 <p>Do you really want to log out?</p>
                 <div class="modal-footer">
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Cancel</button>
                     </div>
                     <div class="col-xs-6">
-                        <button type="submit" class="btn btn-default btn-block" onclick="logOut()">Logout
+                        <button type="submit" class="btn btn-primary btn-block" onclick="logOut()">Logout
                         </button>
                     </div>
                 </div>
@@ -207,10 +212,10 @@
                 <p>Do you really want to send message?</p>
                 <div class="modal-footer">
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">No</button>
                     </div>
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block" onclick="confirmAndSendMessage()">
+                        <button type="button" class="btn btn-primary btn-block" onclick="confirmAndSendMessage()">
                             Yes
                         </button>
                     </div>
@@ -229,10 +234,11 @@
                 <p>Do you really want to add this team?</p>
                 <div class="modal-footer">
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">No</button>
                     </div>
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block" onclick="confirmAndAddParticipant()">Yes
+                        <button type="button" class="btn btn-primary btn-block" onclick="confirmAndAddParticipant()">
+                            Yes
                         </button>
                     </div>
                 </div>
