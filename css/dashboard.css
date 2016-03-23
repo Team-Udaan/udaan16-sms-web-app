@@ -1,25 +1,28 @@
 body {
     position: relative;
-    background-color: #F9FBE7;
+    background-color: #FFFDE7;
 }
-
 
 ul.nav-pills {
     top: 75px;
     position: fixed;
+    width: 150px;
 }
 
 ul.nav-pills > li > a {
     color: #ffffff;
-    background-color: #3F51B5;
+    background-color: #0D47A1;
+    font-weight: 300;
 }
 
-.message-received {
-    border-color: #3C763D;
+ul.nav-pills > li > a:visited {
+    color: #ffffff;
+    background-color: #0D47A1;
+    font-weight: 300;
 }
 
 ul.nav-pills > li > a:hover {
-    background-color: #01031a;
+    background-color: #000;
     font-weight: bold;
 }
 
@@ -27,10 +30,15 @@ ul.nav-pills > li > a:hover {
     color: black;
 }
 
-.navbar-inverse .navbar-nav > li > a:hover {
-    background-color: #000;
+.navbar-nav > li > a:hover {
+    background-color: #fff;
+    color: black;
     font-weight: bold;
     padding-left: 25px;
+}
+
+.navbar-nav > li > a {
+    color: white;
 }
 
 .page-container > .container {
@@ -38,9 +46,22 @@ ul.nav-pills > li > a:hover {
 }
 
 .navbar {
-    background-color: #3F51B5;
+    background-color: #0D47A1;
+    -webkit-box-shadow: 0 6px 8px 1px rgba(0, 0, 0, 0.77);
+    -moz-box-shadow: 0 6px 8px 1px rgba(0, 0, 0, 0.77);
+    box-shadow: 0 6px 8px 1px rgba(0, 0, 0, 0.77);
 }
 
-#event-name {
+#event-name, #round-number {
     color: white;
 }
+
+.icon-bar {
+    background-color: white;
+}
+
+.table {
+    background-color: white;
+
+}
+

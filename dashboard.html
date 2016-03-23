@@ -50,7 +50,7 @@
                         <li><a href="#" onclick="selectCheckboxes();">Select All</a></li>
                         <li><a href="#" onclick="clearCheckboxes()">Clear Selection</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#message-modal">Send Message</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#add-team-modal">Add Participant</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#add-team-modal">Add Team</a></li>
                         <li><a href="#" data-toggle="modal" data-target="#log-out-modal">Log out</a></li>
                     </ul>
                 </div>
@@ -60,19 +60,18 @@
 
     <div class="container">
         <div class="row">
-            <nav class="col-sm-3 hidden-xs" id="myScrollspy">
+            <nav class="col-sm-3 col-lg-2 hidden-xs" id="myScrollspy">
                 <ul class="nav nav-pills nav-stacked">
                     <li><a href="#" onclick="selectCheckboxes()">Select All</a></li>
                     <li><a href="#" onclick="clearCheckboxes()">Clear Selection</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#message-modal">Send Message</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#add-team-modal">Add Participant</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#add-team-modal">Add Team</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#log-out-modal">Log out</a></li>
-
                 </ul>
             </nav>
-            <div class="col-sm-9 col-xs-12">
+            <div class="col-sm-9 col-lg-10 col-xs-12">
                 <div id="list-table-container" class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped" id="participant-table">
+                    <table class="table table-bordered table-hover" id="participant-table">
                         <tr>
                             <th></th>
                             <th>Name</th>
@@ -165,10 +164,10 @@
             </div>
             <div class="modal-footer">
                 <div class="col-xs-6">
-                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Cancel</button>
                 </div>
                 <div class="col-xs-6">
-                    <button type="button" class="btn btn-default btn-block" id="ok-button-add-team-modal"
+                    <button type="button" class="btn btn-primary btn-block" id="ok-button-add-team-modal"
                             data-toggle="modal" data-target="#confirm-add-team-modal">
                         Add Team
                     </button>
