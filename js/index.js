@@ -27,6 +27,9 @@ if (token) {
 }
 
 $(document).ready(function () {
+    setTimeout(function () {
+        $('#logo-wrapper').removeClass('hidden-lg');
+    }, 100);
     $('#loginWindow').animate({'width': '100%'}, 500)
         .delay(30)
         .animate({'height': '300px'}, 500);
@@ -36,14 +39,16 @@ $(document).ready(function () {
 
     $("#submit-button").on('click', function () {
         resetFeedback();
-        if (!validateUsername($('#email').val())) {
-            feedbackInvalidEmail()
-        } else if (!validatePassword($('#password').val())) {
+        var email = $('#email').val();
+        var password = $('#password').val();
+        if (!validateUsername(email)) {
+            feedbackInvalidEmail();
+        } else if (!validatePassword(password)) {
             feedbackInvalidPassword();
         } else {
             var userData = {
-                email: $('#email').val(),
-                password: $('#password').val()
+                email: email,
+                password: password
             };
             $.ajax({
                 url: config.baseUrl + '/api/event_management/login',

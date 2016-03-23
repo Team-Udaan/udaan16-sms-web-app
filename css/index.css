@@ -7,7 +7,7 @@ body {
     font-family: "Quicksand", sans-serif;
     height: 100%;
     margin: 0;
-    background-image: url("../res/img/abstract-mosaic-background.png");
+    background-image: url("../res/img/bg-index.png");
 }
 
 #loginWindow {
