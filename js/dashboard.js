@@ -91,18 +91,17 @@ $(document).ready(function () {
         checkboxes.attr('disabled', true);
     }
 
-    // On venue or date-time change
-    $('#venue-message-modal, #date-time-message-modal').on('change', function () {
-            var venue = $('#venue-message-modal').val();
-            var dateTime = $('#date-time-message-modal').val();
-            if (venue && dateTime) {
-                dateTime = dateTime.split('T');
-                var date = dateTime[0];
-                var time = dateTime[1];
-                $('#message-message-modal').val("Your next round will be at " + venue + " on " + time + ', ' + date);
-            }
-        }
-    );
+    $('#add-team-modal').on('hidden.bs.modal', function () {
+        var alertBox = $('#alert-add-team-modal');
+        alertBox.addClass('sr-only');
+        alertBox.html('');
+    });
+
+    $('#message-modal').on('hidden.bs.modal', function () {
+        var alertBox = $('#alert-message-modal');
+        alertBox.addClass('sr-only');
+        alertBox.html('');
+    });
 });
 
 function selectCheckboxes() {
@@ -119,36 +118,40 @@ function logOut() {
 
 
 function confirmAndSendMessage() {
-    $('#message-modal').modal('hide');
-    $('#confirm-send-message-modal').modal('hide');
+    var venue = $('#venue-message-modal').val().trim();
+    var dateTime = $('#date-time-message-modal').val().trim();
 
-    var venue = $('#venue-message-modal').val();
-    var dateTime = $('#date-time-message-modal').val();
-    dateTime = dateTime.split('T');
-    var date = dateTime[0];
-    var time = dateTime[1];
+    var currentDate = new Date();
+    var enteredDate = new Date(dateTime);
 
-    var participants = [];
-    $('.checkbox').each(function () {
-        if ($(this).prop('checked')) {
-            participants.push(app.participant[$(this).attr('u16-index')]);
+    if (venue && dateTime && (currentDate < enteredDate)) {
+        $('#message-modal').modal('hide');
+
+        dateTime = dateTime.split('T');
+        var date = dateTime[0];
+        var time = twentyFourHourToTwelveHour(dateTime[1]);
+
+        var participants = [];
+        $('.checkbox').each(function () {
+            if ($(this).prop('checked')) {
+                participants.push(app.participant[$(this).attr('u16-index')]);
+            }
+        });
+
+        for (var i = 0; i < participants.length; i++) {
+            delete participants[i]['smsStatus'];
+            delete participants[i]['index'];
         }
-    });
 
-    for (var i = 0; i < participants.length; i++) {
-        delete participants[i]['smsStatus'];
-        delete participants[i]['index'];
-    }
+        var parameters = {
+            date: date,
+            time: time,
+            venue: venue,
+            teams: participants
+        };
 
-    var parameters = {
-        date: date,
-        time: time,
-        venue: venue,
-        teams: participants
-    };
-
-    $.ajax({
-        url: config.baseUrl + '/api/sendsms',
+        $.ajax({
+            url: config.baseUrl + '/api/event_management/promote',
             headers: {'Authorization': app.token},
             type: 'POST',
             data: JSON.stringify(parameters),
@@ -161,21 +164,33 @@ function confirmAndSendMessage() {
                     window.alert('Some error occurred.\nPlease try again.');
                 }
             },
-        error: function () {
-            window.location.reload();
+            error: function () {
+                window.location.reload();
             }
+            }
+        );
+    } else {
+        var message = 'Invalid input';
+        if (!venue) {
+            message = 'Please provide valid Venue';
+        } else {
+            message = 'Please provide valid date & time';
         }
-    );
+        alertBox.html(message);
+        alertBox.removeClass('sr-only');
+    }
 }
 function confirmAndAddParticipant() {
-    $('#add-team-modal').modal('hide');
-    $('#confirm-add-team-modal').modal('hide');
+    var names = $('#participant-names-add-team-modal').val().trim();
+    var mobileNumber = $('#mobile-number-add-team-modal').val().trim();
 
-    var names = $('#participant-names-add-team-modal').val();
-    var mobileNumber = $('#mobile-number-add-team-modal').val();
+    var mobileRegEx = /^[789][0-9]{9}$/;
 
-    $.ajax({
-        url: config.baseUrl + '/api/event_management/participants',
+    if (names && mobileRegEx.test(mobileNumber)) {
+        $('#add-team-modal').modal('hide');
+
+        $.ajax({
+            url: config.baseUrl + '/api/event_management/participants',
             type: 'POST',
             data: JSON.stringify({
                 names: names,
@@ -184,18 +199,28 @@ function confirmAndAddParticipant() {
             dataType: 'json',
             headers: {'Authorization': app.token},
             crossDomain: true,
-        success: function (result) {
-            if (result.status === 200) {
-                reloadData();
-            } else {
-                window.alert('Some error occurred.\nPlease try again.');
-            }
+            success: function (result) {
+                if (result.status === 200) {
+                    reloadData();
+                } else {
+                    window.alert('Some error occurred.\nPlease try again.');
+                }
             },
             error: function () {
                 reloadData();
             }
+            }
+        );
+    } else {
+        var message = '';
+        if (!mobileRegEx.test(mobileNumber)) {
+            message = 'Enter valid mobile number';
+        } else {
+            message = 'Names can\'t be blank';
         }
-    );
+        alertBox.html(message);
+        alertBox.removeClass('sr-only');
+    }
 }
 
 function reloadData() {
@@ -243,4 +268,51 @@ function reloadData() {
             }
         }
     );
+    $.ajax({
+            url: config.baseUrl + '/api/event_management/current_round',
+            type: 'GET',
+            crossDomain: true,
+            async: false,
+            headers: {'Authorization': app.token},
+            success: function (result) {
+                if (result.status === 200) {
+                    app.roundNumber = result.message;
+                    $('#round-number').html('Round: ' + app.roundNumber);
+                } else {
+                    localStorage.removeItem('authorization-token');
+                    window.location.replace('index.html');
+                }
+            },
+            error: function () {
+                localStorage.removeItem('authorization-token');
+                window.location.replace('index.html');
+            }
+        }
+    );
+    if (app.roundNumber === '0') {
+        var checkboxes = $('.checkbox');
+        checkboxes.prop('checked', true);
+        checkboxes.attr('disabled', true);
+    }
+}
+
+function twentyFourHourToTwelveHour(twentyFourHour) {
+    twentyFourHour = twentyFourHour.split(':');
+    var hours = twentyFourHour[0];
+    var minutes = twentyFourHour[1];
+    var suffix = '';
+
+    if (hours === 0) {
+        suffix = 'AM';
+        hours = '12';
+    } else if (hours < 12) {
+        suffix = 'AM';
+    } else if (hours === 12) {
+        suffix = 'PM';
+    } else {
+        suffix = 'PM';
+        hours = hours - 12;
+    }
+
+    return hours + ':' + minutes + ' ' + suffix;
 }

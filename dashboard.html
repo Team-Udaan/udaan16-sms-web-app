@@ -117,6 +117,12 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-xs-12">
+                        <div class="alert alert-danger sr-only" role="alert" id="alert-message-modal">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xs-6">
                         <input type="text" class="form-control" placeholder="Enter Venue" name="venue"
                                id="venue-message-modal">
@@ -127,9 +133,6 @@
                     </div>
 
                 </div>
-                <br>
-                <label for="message-message-modal">Your message will look like this:</label>
-                <textarea name="message" id="message-message-modal" class="form-control"></textarea>
             </div>
             <div class="modal-footer">
                 <div class="col-xs-6">
@@ -137,7 +140,7 @@
                 </div>
                 <div class="col-xs-6">
                     <button type="button" class="btn btn-primary btn-block" id="ok-button-message-modal"
-                            data-toggle="modal" data-target="#confirm-send-message-modal">
+                            onclick="confirmAndSendMessage()">
                         Send Message
                     </button>
                 </div>
@@ -155,6 +158,12 @@
                 <h2 class="modal-title">Add Team</h2>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="alert alert-danger sr-only" role="alert" id="alert-add-team-modal">
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-12">
                         <label for="mobile-number-add-team-modal">Mobile Number</label>
@@ -177,7 +186,7 @@
                 </div>
                 <div class="col-xs-6">
                     <button type="button" class="btn btn-primary btn-block" id="ok-button-add-team-modal"
-                            data-toggle="modal" data-target="#confirm-add-team-modal">
+                            onclick="confirmAndAddParticipant()">
                         Add Team
                     </button>
                 </div>
@@ -206,51 +215,6 @@
         </div>
     </div>
 </div>
-
-<!--Confirm send message modal-->
-<div class="modal fade" id="confirm-send-message-modal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <p>Do you really want to send message?</p>
-                <div class="modal-footer">
-                    <div class="col-xs-6">
-                        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">No</button>
-                    </div>
-                    <div class="col-xs-6">
-                        <button type="button" class="btn btn-primary btn-block" onclick="confirmAndSendMessage()">
-                            Yes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Confirm add team modal-->
-<div class="modal fade" id="confirm-add-team-modal" role="dialog">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-body">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <p>Do you really want to add this team?</p>
-                <div class="modal-footer">
-                    <div class="col-xs-6">
-                        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">No</button>
-                    </div>
-                    <div class="col-xs-6">
-                        <button type="button" class="btn btn-primary btn-block" onclick="confirmAndAddParticipant()">
-                            Yes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 </body>
 </html>
