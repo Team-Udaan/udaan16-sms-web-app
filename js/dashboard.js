@@ -67,10 +67,12 @@ $(document).ready(function () {
     app.template = Handlebars.compile(source);
 
     Handlebars.registerHelper('isReceived', function (smsStatus) {
-        if (smsStatus === config.status.delivered) {
+        if (config.status.delivered.indexOf(smsStatus) > -1) {
             return 'success';
-        } else if (smsStatus === config.status.error) {
+        } else if (config.status.error.indexOf(smsStatus) > -1) {
             return 'danger';
+        } else if (config.status.pending.indexOf(smsStatus) > -1) {
+            return 'info';
         } else {
             return '';
         }
@@ -147,6 +149,7 @@ function confirmAndSendMessage() {
             date: date,
             time: time,
             venue: venue,
+            test: true,
             teams: participants
         };
 
@@ -159,7 +162,7 @@ function confirmAndSendMessage() {
             crossDomain: true,
             success: function (result) {
                 if (result.status === 200) {
-                    setTimeout(reloadData, 5000);
+                    setTimeout(reloadData, 10000);
                 } else {
                     window.alert('Some error occurred.\nPlease try again.');
                 }
@@ -170,6 +173,7 @@ function confirmAndSendMessage() {
             }
         );
     } else {
+        var alertBox = $('#alert-message-modal');
         var message = 'Invalid input';
         if (!venue) {
             message = 'Please provide valid Venue';
@@ -194,7 +198,7 @@ function confirmAndAddParticipant() {
             type: 'POST',
             data: JSON.stringify({
                 names: names,
-                mobileNumber: mobileNumber
+                mobileNumber: parseInt(mobileNumber)
             }),
             dataType: 'json',
             headers: {'Authorization': app.token},
@@ -212,6 +216,7 @@ function confirmAndAddParticipant() {
             }
         );
     } else {
+        var alertBox = $('#alert-add-team-modal');
         var message = '';
         if (!mobileRegEx.test(mobileNumber)) {
             message = 'Enter valid mobile number';
