@@ -7,7 +7,7 @@ var app = {};
 app.token = localStorage.getItem('authorization-token');
 if (app.token) {
     $.ajax({
-        url: config.baseUrl + '/api/event_management/participants',
+            url: config.baseUrl + '/api/event_management/participants',
             type: 'GET',
             crossDomain: true,
             async: false,
@@ -45,12 +45,34 @@ $(document).ready(function () {
             url: config.baseUrl + '/api/event_management/current_round',
             type: 'GET',
             crossDomain: true,
-        async: false,
+            async: false,
             headers: {'Authorization': app.token},
             success: function (result) {
                 if (result.status === 200) {
                     app.roundNumber = result.message;
                     $('#round-number').html('Round: ' + app.roundNumber);
+                } else {
+                    localStorage.removeItem('authorization-token');
+                    window.location.replace('index.html');
+                }
+            },
+            error: function () {
+                localStorage.removeItem('authorization-token');
+                window.location.replace('index.html');
+            }
+        }
+    );
+
+    $.ajax({
+            url: config.baseUrl + '/api/event_management/instructions',
+            type: 'GET',
+            crossDomain: true,
+            success: function (result) {
+                if (result.status === 200) {
+                    var instructionsMarkdown = result.message;
+                    var converter = new showdown.Converter();
+                    var instructionsHtml = converter.makeHtml(instructionsMarkdown);
+                    $('#content-instruction-modal').html(instructionsHtml);
                 } else {
                     localStorage.removeItem('authorization-token');
                     window.location.replace('index.html');
@@ -154,22 +176,22 @@ function confirmAndSendMessage() {
         };
 
         $.ajax({
-            url: config.baseUrl + '/api/event_management/promote',
-            headers: {'Authorization': app.token},
-            type: 'POST',
-            data: JSON.stringify(parameters),
-            dataType: 'json',
-            crossDomain: true,
-            success: function (result) {
-                if (result.status === 200) {
-                    setTimeout(reloadData, 10000);
-                } else {
-                    window.alert('Some error occurred.\nPlease try again.');
+                url: config.baseUrl + '/api/event_management/promote',
+                headers: {'Authorization': app.token},
+                type: 'POST',
+                data: JSON.stringify(parameters),
+                dataType: 'json',
+                crossDomain: true,
+                success: function (result) {
+                    if (result.status === 200) {
+                        setTimeout(reloadData, 10000);
+                    } else {
+                        window.alert('Some error occurred.\nPlease try again.');
+                    }
+                },
+                error: function () {
+                    window.location.reload();
                 }
-            },
-            error: function () {
-                window.location.reload();
-            }
             }
         );
     } else {
@@ -194,25 +216,25 @@ function confirmAndAddParticipant() {
         $('#add-team-modal').modal('hide');
 
         $.ajax({
-            url: config.baseUrl + '/api/event_management/participants',
-            type: 'POST',
-            data: JSON.stringify({
-                names: names,
-                mobileNumber: parseInt(mobileNumber)
-            }),
-            dataType: 'json',
-            headers: {'Authorization': app.token},
-            crossDomain: true,
-            success: function (result) {
-                if (result.status === 200) {
+                url: config.baseUrl + '/api/event_management/participants',
+                type: 'POST',
+                data: JSON.stringify({
+                    names: names,
+                    mobileNumber: parseInt(mobileNumber)
+                }),
+                dataType: 'json',
+                headers: {'Authorization': app.token},
+                crossDomain: true,
+                success: function (result) {
+                    if (result.status === 200) {
+                        reloadData();
+                    } else {
+                        window.alert('Some error occurred.\nPlease try again.');
+                    }
+                },
+                error: function () {
                     reloadData();
-                } else {
-                    window.alert('Some error occurred.\nPlease try again.');
                 }
-            },
-            error: function () {
-                reloadData();
-            }
             }
         );
     } else {

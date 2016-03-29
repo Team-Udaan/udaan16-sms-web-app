@@ -62,6 +62,9 @@ ul.nav-pills > li > a:hover {
 
 .table {
     background-color: white;
-
 }
 
+.inactive-link {
+    pointer-events: none;
+    cursor: default;
+}
