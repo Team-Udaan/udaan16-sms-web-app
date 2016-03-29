@@ -50,7 +50,7 @@ $(document).ready(function () {
             success: function (result) {
                 if (result.status === 200) {
                     app.roundNumber = result.message;
-                    $('#round-number').html('Round: ' + app.roundNumber);
+                    $('#round-number').html('Send messages for round ' + (parseInt(app.roundNumber) + 1));
                 } else {
                     localStorage.removeItem('authorization-token');
                     window.location.replace('index.html');
@@ -110,7 +110,9 @@ function selectCheckboxes() {
     $('.checkbox').prop('checked', true);
 }
 function clearCheckboxes() {
-    $('.checkbox').prop('checked', false);
+    if (app.roundNumber !== '0') {
+        $('.checkbox').prop('checked', false);
+    }
 }
 
 function logOut() {
@@ -149,8 +151,8 @@ function confirmAndSendMessage() {
             date: date,
             time: time,
             venue: venue,
-            test: true,
-            teams: participants
+            teams: participants,
+            currentRound: app.roundNumber
         };
 
         $.ajax({
@@ -169,7 +171,7 @@ function confirmAndSendMessage() {
             },
             error: function () {
                 window.location.reload();
-            }
+                }
             }
         );
     } else {
@@ -198,7 +200,8 @@ function confirmAndAddParticipant() {
             type: 'POST',
             data: JSON.stringify({
                 names: names,
-                mobileNumber: parseInt(mobileNumber)
+                mobileNumber: parseInt(mobileNumber),
+                currentRound: app.roundNumber
             }),
             dataType: 'json',
             headers: {'Authorization': app.token},
@@ -208,11 +211,12 @@ function confirmAndAddParticipant() {
                     reloadData();
                 } else {
                     window.alert('Some error occurred.\nPlease try again.');
+                    reloadData();
                 }
             },
             error: function () {
-                reloadData();
-            }
+                    reloadData();
+                }
             }
         );
     } else {
@@ -282,7 +286,7 @@ function reloadData() {
             success: function (result) {
                 if (result.status === 200) {
                     app.roundNumber = result.message;
-                    $('#round-number').html('Round: ' + app.roundNumber);
+                    $('#round-number').html('Send messages for round ' + (parseInt(app.roundNumber) + 1));
                 } else {
                     localStorage.removeItem('authorization-token');
                     window.location.replace('index.html');
