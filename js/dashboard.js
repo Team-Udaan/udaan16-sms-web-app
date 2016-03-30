@@ -135,6 +135,7 @@ $(document).ready(function () {
 function selectCheckboxes() {
     $('.checkbox').prop('checked', true);
 }
+
 function clearCheckboxes() {
     if (app.roundNumber !== '0') {
         $('.checkbox').prop('checked', false);
@@ -145,7 +146,6 @@ function logOut() {
     localStorage.removeItem('authorization-token');
     window.location.replace('index.html');
 }
-
 
 function confirmAndSendMessage() {
     var venue = $('#venue-message-modal').val().trim();
@@ -178,7 +178,7 @@ function confirmAndSendMessage() {
             time: time,
             venue: venue,
             teams: participants,
-            currentRound: app.roundNumber
+            currentRound: parseInt(app.roundNumber)
         };
 
         $.ajax({
@@ -213,6 +213,7 @@ function confirmAndSendMessage() {
         alertBox.removeClass('sr-only');
     }
 }
+
 function confirmAndAddParticipant() {
     var names = $('#participant-names-add-team-modal').val().trim();
     var mobileNumber = $('#mobile-number-add-team-modal').val().trim();
@@ -228,7 +229,7 @@ function confirmAndAddParticipant() {
             data: JSON.stringify({
                 names: names,
                 mobileNumber: parseInt(mobileNumber),
-                currentRound: app.roundNumber
+                currentRound: parseInt(app.roundNumber)
             }),
             dataType: 'json',
             headers: {'Authorization': app.token},
