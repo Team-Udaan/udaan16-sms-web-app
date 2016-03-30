@@ -109,8 +109,12 @@ $(document).ready(function () {
 
     participantTable.html(app.template(participantData));
 
+    var checkboxes = $('.checkbox');
+    checkboxes.on('change', function () {
+        clearInterval(app.intervalId);
+    });
+
     if (app.roundNumber === '0') {
-        var checkboxes = $('.checkbox');
         checkboxes.prop('checked', true);
         checkboxes.attr('disabled', true);
     }
@@ -186,7 +190,8 @@ function confirmAndSendMessage() {
                 crossDomain: true,
                 success: function (result) {
                     if (result.status === 200) {
-                        setTimeout(reloadData, 10000);
+                        reloadData();
+                        app.intervalId = setInterval(reloadData, 30000);
                     } else {
                         window.alert('Some error occurred.\nPlease try again.');
                     }
@@ -283,8 +288,12 @@ function reloadData() {
 
                     participantTable.html(template(participantData));
 
+                    var checkboxes = $('.checkbox');
+                    checkboxes.on('change', function () {
+                        clearInterval(app.intervalId);
+                    });
+
                     if (app.roundNumber === '0') {
-                        var checkboxes = $('.checkbox');
                         checkboxes.prop('checked', true);
                         checkboxes.attr('disabled', true);
                     }
