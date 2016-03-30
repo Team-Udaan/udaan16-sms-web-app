@@ -30,15 +30,20 @@ ul.nav-pills > li > a:hover {
     color: black;
 }
 
+.navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-nav > li > a:visited {
+    color: white;
+    background-color: #0D47A1;
+}
+
 .navbar-nav > li > a:hover {
     background-color: #fff;
     color: black;
     font-weight: bold;
     padding-left: 25px;
-}
-
-.navbar-nav > li > a {
-    color: white;
 }
 
 .page-container > .container {
